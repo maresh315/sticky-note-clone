@@ -1,0 +1,18 @@
+<nav>
+	<a btn href="/">Back</a>
+</nav>
+
+	<div class=" card-modify" >
+		<form #modifyForm="ngForm" (ngSubmit)="onSave()">
+			<h2>{{formTitle}}</h2>
+			<input type="text" placeholder="Note Title" name="title" [(ngModel)]="title" required>
+			<textarea type="text" [placeholder]="dummyText" name="content" #name="ngModel" [(ngModel)]="content" required></textarea>
+			<select name="tag" [(ngModel)]="tag" required>
+				<option *ngFor="let tag of tags" [value]="tag">{{tag}}</option>
+			</select>
+			<div class="btn-group">
+				<button type="submit">Save</button>
+				<input type="reset">
+			</div>
+		</form>
+	</div>	
