@@ -1,0 +1,233 @@
+$personal-bg-color: rgb(255, 200, 200);
+$work-bg-color: rgb(200, 255, 200);
+$miscellaneous-bg-color: rgb(255, 255, 200);
+
+.container { 
+	padding: 20px;
+	margin: 10px;
+	display: flex;
+	flex-direction: row ;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+.card {
+	background-color: rgb(200, 240, 255);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	border-radius: 10px;
+	margin: 10px 0px 0px 0px;
+	padding: 0px 0px 5px 0px; 
+	max-width: 200px;
+	max-height: 200px;
+
+	small{
+		margin-top: 5px;
+	}
+	.card-header{
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 10px;
+	}
+	.card-body{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin: 5px 10px;
+	}
+	&:hover{
+		box-shadow: 0 2px 16px 0 rgba(0,0,0,0.35); 		
+	}
+}
+
+.btn{
+	// display: inline-block;
+	cursor: pointer;
+	transition-duration: 0.8s;
+
+	&:hover{
+		box-shadow: 0 2px 16px 0 rgba(0,0,0,0.35); 		
+		background-color: rgb(189, 214, 236);
+	}
+	&:active{ 
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+		background-color: initial;
+	}
+}
+
+/*  */
+
+.hexagon-wrapper {
+	width: 50px;
+	height: 50px;
+}
+.hexagon {
+	position: relative;
+	width: 46%;
+	height: 80%;
+	margin: auto;
+	background: linear-gradient(-180deg, rgb(200, 240, 255)
+, skyblue);
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	transition: 0.4s;
+	img { z-index: 1; }
+	&:before {
+		position: absolute;
+		content: "";
+		background: inherit;
+		height: 100%;
+		width: 100%;
+		border-radius: 0;
+		transition: 0.4s;
+		transform-origin: center;
+		transform: rotateZ(60deg);
+	}
+	&:after {
+		position: absolute;
+		content: "";
+		background: inherit;
+		height: 100%;
+		width: 100%;
+		border-radius: 0;
+		transition: 0.4s;
+		transform-origin: center;
+		transform: rotateZ(-60deg);
+	}
+	&:hover {
+		border-radius: 50px;
+		transition: 0.4s;
+		&:before {
+			border-radius: 50px;
+			transition: 0.4s;
+		}
+		&:after {
+			border-radius: 50px;
+			transition: 0.4s;
+		}
+	}
+	// &:active {
+	// 	border-radius: 0;
+	// 	transition: 0.1s;
+	// 	&:before {
+	// 		border-radius: 0px;
+	// 		transition: 0.1s;
+	// 	}
+	// 	&:after {
+	// 		border-radius: 0px;
+	// 		transition: 0.1s;
+	// 	}
+	// }
+}
+
+.btn-add{
+	position: fixed;
+	bottom: 2%;
+	right: 2%;
+	
+}
+
+.btn-close {
+	position: relative;
+  font-size: 40px;
+	cursor: pointer;
+	&:hover {/* Temp Color */
+		color: rgb(68, 168, 255);
+	}
+	&:active { /* Temp Color */
+		color: rgb(0, 83, 155);
+	}
+}
+
+/*  */
+
+#view-note-modal {
+	visibility: hidden;
+	opacity: 0;
+	transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+	&:target {
+		visibility: visible;
+		opacity: 1;
+		.modal {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+	.modal {
+		opacity: 0;
+		transform: translateY(-1rem);
+		transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+		transition-delay: .2s;
+	}
+}
+.modal-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, .6);
+}
+.modal {
+	z-index: 1;
+	background-color: rgb(200, 240, 255);
+	width: 80%;
+	max-width: 500px;
+	min-width: 100px;
+	padding: 1rem;
+	border-radius: 8px;
+}
+.row{
+	// width: 300px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid rgb(180, 180, 180);
+	max-height:95px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	content: "";
+	position:relative;
+
+	&:before {
+		content:'';
+		width:100%;
+		height:100%;    
+		position:absolute;
+		left:0;
+		top:0;
+		background:linear-gradient(transparent 150px, white);
+	}
+}
+
+/*  */
+
+.personal{ background-color: $personal-bg-color }
+.work{ background-color:$work-bg-color }
+.miscellaneous{ background-color: $miscellaneous-bg-color }
+
+/*  */
+
+.btn-edit{
+	position: relative;
+	font-size: 25px;
+	margin-left: 60px;
+	align-self: center;
+	cursor: pointer;
+
+	&:hover {/* Temp Color */
+		color: rgb(68, 168, 255);
+	}
+	&:active { /* Temp Color */
+		color: rgb(0, 83, 155);
+	}
+}

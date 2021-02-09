@@ -1,18 +1,34 @@
 <nav>
-	<a btn href="/">Back</a>
+		<h1>Notes</h1>
+		<button id="btn-back" (click)="onBack()">Back</button>
 </nav>
 
-	<div class=" card-modify" >
-		<form #modifyForm="ngForm" (ngSubmit)="onSave()">
-			<h2>{{formTitle}}</h2>
-			<input type="text" placeholder="Note Title" name="title" [(ngModel)]="title" required>
-			<textarea type="text" [placeholder]="dummyText" name="content" #name="ngModel" [(ngModel)]="content" required></textarea>
-			<select name="tag" [(ngModel)]="tag" required>
-				<option *ngFor="let tag of tags" [value]="tag">{{tag}}</option>
-			</select>
-			<div class="btn-group">
-				<button type="submit">Save</button>
-				<input type="reset">
-			</div>
-		</form>
-	</div>	
+<div class=" card-modify" >
+	<form #modifyForm="ngForm" (ngSubmit)="onSave()">
+		<h2>{{formTitle}}</h2>
+		<input type="text" placeholder="Note Title" name="title" [(ngModel)]="title" required>
+		<textarea type="text" [placeholder]="dummyText" name="content" #name="ngModel" [(ngModel)]="content" required></textarea>
+		<select name="tag" [(ngModel)]="tag" required>
+			<option *ngFor="let tag of tags" [value]="tag">{{tag}}</option>
+		</select>
+		<div class="btn-group">
+			<button type="submit">Save</button>
+			<button type="reset" (click)="onReset($event, modifyForm)">Reset</button>
+		</div>
+	</form>
+</div>	
+
+<!-- <div *ngIf="isModalOpen"  class="modal-container">
+	<div class="modal">
+		<div class="card-body">
+			<p>{{message}}</p>
+		</div>
+		<br>
+		<div class="card-footer">
+			<button (click)="onModalClick(false)">Cancel</button>
+			<button (click)="onModalClick(true)">Confirm</button>
+		</div>
+	</div>
+	Background, click to close
+	<a class="modal-bg"></a>
+</div> -->

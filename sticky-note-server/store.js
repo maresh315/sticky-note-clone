@@ -1,21 +1,39 @@
+if (typeof localStorage === "undefined" || localStorage === null) {
+  const LocalStorage = require('node-localstorage').LocalStorage;
+	localStorage = new LocalStorage('./storage');
+}
 
 class Store {
   constructor(){
 		// Singleton Pattern
 		if(! Store.instance){
-			this.data = new Array();
+			// this.data = new Array();
+			// this.localStorage = new LocalStorage('./storage');
 			Store.instance = this;
 		}
 		return Store.instance;
   }
 
 	add(item){
-		localStorage.setItem(item.id, item);
+		let incoming = JSON.stringify(item)
+		localStorage.setItem(item.id, incoming);
 		// this.data.push(item);
 	}
-	
+	query(){
+		let items = [];
+		for (let i=0; i<localStorage.length; i++) {
+			try {
+				const key = localStorage.key(i)
+				const element = localStorage.getItem(key);
+				items.push(JSON.parse(element));
+			} catch{// returns empty list in the event the storage is empty
+				return items
+			}
+		}
+		return items.sort();
+	}
   queryById(id){
-		return localStorage.getItem(id)
+		return JSON.parse(localStorage.getItem(id))
     // return this.data.find(d => d.id === id);
 	}
   // queryByTag(tag){
@@ -23,11 +41,13 @@ class Store {
 	// }
 
 	update(item){
-		let storedItem = localStorage.getItem(item.id);
+		let storedItem = JSON.parse(localStorage.getItem(item.id));
 		storedItem.title = item.title;
 		storedItem.content = item.content;
 		storedItem.tag = item.tag;
-		localStorage.setItem(item.id,storedItem)
+		storedItem.updated = Date.now();
+		this.delete(item.id);
+		localStorage.setItem(item.id,JSON.stringify(storedItem))
 		// let storedItem = this.data.find(d => d.id === item.id);
 		// let itemIndex = this.data.findIndex(d => d.id === storedItem.id);
 

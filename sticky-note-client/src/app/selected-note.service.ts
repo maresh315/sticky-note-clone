@@ -6,11 +6,11 @@ import { Note } from './model/note';
 })
 export class SelectedNoteService {
 
-  selected:Note;
+  // selectedId:number;
 
   constructor() { }
 
-  resetSelected():void{
-    this.selected = null;
-  }
+  // resetSelected():void{
+  //   this.selected = null;
+  // }
 }

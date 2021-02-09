@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
-import { SelectedNoteService } from '../selected-note.service';
 
 @Component({
   selector: 'app-modify-notes',
@@ -17,17 +17,26 @@ export class ModifyNotesComponent implements OnInit {
   tags:Array<string> = ['Personal','Work','Miscellaneous']
   currentRoute:string;
   formTitle:string;
+  // isModalOpen:boolean;
+  // isConfirmed:boolean;
+  message:string = 'Discard Current Changes?';
+  private currentNote:Note;
 
   constructor(private apiService:ApiService, private router:Router, 
-    private selectedService:SelectedNoteService, private activated:ActivatedRoute) { }
+    private activated:ActivatedRoute) { }
 
   ngOnInit(): void {
-    if(this.selectedService.selected){
-      this.title = this.selectedService.selected.title;
-      this.content = this.selectedService.selected.content;
-      this.tag = this.selectedService.selected.tag;
-      this.selectedService.resetSelected()
-    }
+    // this.isModalOpen = false;
+    this.activated.params.subscribe(params =>{
+      this.apiService.getNote(params.id).subscribe(note =>{
+        this.title = note.title;
+        this.content = note.content;
+        this.tag = note.tag;
+
+        this.currentNote = note;
+        
+      })
+    })
 
     this.activated.url.subscribe((data)=>{
       this.currentRoute = data[0].path;
@@ -48,13 +57,53 @@ export class ModifyNotesComponent implements OnInit {
     
     if(this.currentRoute === 'new-note'){
       this.apiService.addNotes(note);
-      this.router.navigate(['']);
+      this.router.navigate([''])
     }else
       this.updateNote(note)
   }
 
-  private updateNote(note:Note):void{
-    this.apiService.updateNote(note);
-    this.router.navigate(['']);
+  onReset($event:any, form:NgForm):void{
+    $event.preventDefault();
+    $event.stopPropagation();
+    // this.isModalOpen=true
+    if(this.currentRoute === 'new-note')
+      form.resetForm();
+    else{
+      this.title = this.currentNote.title;
+      this.content = this.currentNote.content;
+      this.tag = this.currentNote.tag;
+    }
+    
+    
   }
+
+  onBack(){
+    // this.isModalOpen = true;
+    // if(this.isConfirmed)
+      this.router.navigate(['']);
+    
+  }
+  
+  onModalClick(bool:boolean, form:NgForm){
+    if(this.currentRoute === 'new-note')
+      form.resetForm();
+    else{
+      this.title = this.currentNote.title;
+      this.content = this.currentNote.content;
+      this.tag = this.currentNote.tag;
+    }
+    // if(bool){
+    //   this.isConfirmed=true
+    //   this.isModalOpen = false
+    // }else
+    //   this.isModalOpen=false
+    
+  }
+  
+  private updateNote(note:Note):void{
+    note.id = this.currentNote.id
+    this.apiService.updateNote(note);
+    this.router.navigate([''])
+  }
+
 }

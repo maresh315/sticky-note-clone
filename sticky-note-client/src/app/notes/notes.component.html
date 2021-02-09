@@ -1,3 +1,13 @@
+<nav class="container">
+	<div class="nav-brand">
+		<h1>Notes</h1>
+	</div>
+	<div class="nav-search">
+		<input id="filter" type="search" placeholder="Tag Search..." [(ngModel)]="filterString" >
+		<button id="btn-search" (click)="filterNotes($event)">Search</button>
+	</div>
+</nav>
+
 <div class="hexagon-wrapper btn-add">
 	<div class="hexagon" (click)='addNote()'>
 		<img src="../../assets/solid/document-add.svg">
@@ -30,7 +40,6 @@
 	</a>
 </div> -->
 
-
 <div class="note-list">
 	<div class="container" *ngFor='let note of notes |async'>
 
@@ -47,6 +56,7 @@
 			<div class="card-body">
 				<p class="overflow row">{{note.content}}</p>
 				<small>Created On: {{note.id | date}}</small>
+				<small>Updated On: {{note.updated | date}}</small>
 			</div>
 		</a>
 
@@ -65,6 +75,7 @@
 			<p class="overflow">{{selectedNote.content}}</p>
 			<br>
 			<small>Created On: {{selectedNote.id | date}}</small>
+			<small>Updated On: {{selectedNote.updated | date}}</small>
 		</div>
 	</div>
 

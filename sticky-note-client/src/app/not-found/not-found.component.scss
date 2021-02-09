@@ -1,0 +1,17 @@
+.container{
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	button{
+		margin-top: 10px;
+		align-self: center;
+		width: 150px;
+		height: 100px;
+		font-size: x-large;
+		border-radius: 10px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+		&:hover{
+			box-shadow: 0 8px 16px rgba(0,0,0,.4);
+		}
+	}
+}

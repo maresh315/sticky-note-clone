@@ -8,11 +8,8 @@ const router = express.Router();
 // get all notes
 router.get('/notes', (req, res) =>{
 	// let notes = store.data
-	let notes = [];
-	for (let i = 0; i < localStorage.length; i++) {
-		const element = array[i];
-		notes.push(element);
-	}
+	let notes = store.query();
+	
 	res.send(notes);
 });
 
@@ -40,7 +37,7 @@ router.post('/notes', (req, res) =>{
 });
 
 // update a note
-router.put('/notes/:id',(req, res) =>{
+router.post('/notes/:id',(req, res) =>{
 	let note = new Note({
 		id: req.body.id,
 		title: req.body.title,

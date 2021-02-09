@@ -1,10 +1,8 @@
-import { not } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
-import { SelectedNoteService } from '../selected-note.service';
 
 @Component({
   selector: 'app-notes',
@@ -20,33 +18,37 @@ export class NotesComponent implements OnInit {
   addBtn:string;
   selectedNote:Note;
   viewNoteElementId:string;
+  filterString:string;
+  onClick:boolean;
 
-  constructor(private apiService:ApiService, private router:Router, private selectedService:SelectedNoteService) { }
+  constructor(private apiService:ApiService, private router:Router) { }
 
   ngOnInit(): void {
+    this.onClick = false;
     this.notes = this.apiService.getNotes();
     
   }
 
   addNote():void{
-    this.selectedService.resetSelected();
     this.router.navigate(['new-note']);
   }
   
+  filterNotes($event:any){
+    this.preventDefaultEvents($event);
+    let tag = this.filterString.charAt(0).toUpperCase()+this.filterString.slice(1);
+    this.notes = this.apiService.getNotesByTag(tag)
+
+  }
+
   editNote($event:any, note:Note):void{
-    $event.stopPropagation();
-    $event.preventDefault();
-    console.log($event)
-    if($event.target.matches('span.btn-edit')){
-      this.selectedService.selected = note
+    this.preventDefaultEvents($event);
+    if($event.target.matches('span.btn-edit'))
       this.router.navigate([`note/${note.id}`]);
-    }
+
   }
   viewNote($event:any, note:Note):void{
-    console.log($event)
     if(!($event.target.matches('span.btn-edit')||$event.target.matches('span.btn-close'))){
       this.selectedNote = note;
-      this.selectedService.selected = note;
       this.viewNoteElementId = (this.selectedNote) ? '#view-note-modal':'javascript:void(0);';
     }
   }
@@ -55,9 +57,10 @@ export class NotesComponent implements OnInit {
     if($event.target.matches('span.btn-close')){
       this.apiService.deleteNote(id);
     }
+    this.preventDefaultEvents($event);
   }
 
-  getbgColor(tag:string){
+  getbgColor(tag:string):string{
     switch (tag) {
       case 'Personal':
         return tag.toLowerCase();
@@ -65,6 +68,13 @@ export class NotesComponent implements OnInit {
         return tag.toLowerCase();
       case 'Miscellaneous':
         return tag.toLowerCase();
+      default:
+        break;
     }
+  }
+
+  private preventDefaultEvents($event:any):void{
+    $event.stopPropagation();
+    $event.preventDefault();
   }
 }

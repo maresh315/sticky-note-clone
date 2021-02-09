@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Note } from './model/note';
 
 const BASE_URL = 'http://localhost:2000';
@@ -15,20 +16,26 @@ export class ApiService {
     this.http.post(BASE_URL+'/notes', note).subscribe();
   }
 
-  getNotes():Observable<any>{
-    return this.http.get(BASE_URL+'/notes');
+  getNotes():Observable<Array<Note>>{
+    return this.http.get<Array<Note>>(BASE_URL+'/notes');
   }
 
-  getNotesByTag(tag:string):Observable<any>{
-    return this.http.get(`${BASE_URL}/notes/${tag}`)
+  getNotesByTag(tag:string):Observable<Array<Note>>{
+    let notesObservable:Observable<Array<Note>> = this.getNotes();
+    return notesObservable.pipe(
+      map(notes=>{
+        return notes.filter(note=>note.tag === tag)
+      })
+    )
+    
   }
 
-  getNote(id:number):Observable<any>{
-    return this.http.get(`${BASE_URL}/note/${id}`)
+  getNote(id:number):Observable<Note>{
+    return this.http.get<Note>(`${BASE_URL}/note/${id}`)
   }
 
   updateNote(note:Note):void{
-    this.http.put(`${BASE_URL}/notes/${note.id}`, note).subscribe();
+    this.http.post(`${BASE_URL}/notes/${note.id}`, note).subscribe();
   }
 
   deleteNote(id:number):void{

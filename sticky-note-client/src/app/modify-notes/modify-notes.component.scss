@@ -1,19 +1,41 @@
-/* Add and Edit Page Styles */
+nav{
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: space-around;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
+	h1{
+		align-self: center;
+		margin-left: 10px;
+		margin-right: 50px;
+	}
+	button{
+		margin: 10px;
+		padding: 15px 30px;
+		border-width: 1px;
+		border-radius: 10px;
+	}
+}
+
+/*  */
+
 .card-modify{
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
 	background-color: rgb(200, 240, 255);
 	border-radius: 20px;
 	margin: 10px auto;
 	padding: 10px; 
-	width: 500px;
-	height: 500px;
-	// max-width: 80%;
-	// max-height: 80%;
+	min-width: 30vw;
+	max-width: 50vw;
+	min-height: 50vh;
+	max-height: 90vh;
 	
 	form{
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+		position: relative;
+		width: 100%;
+		height: 100%;
 	}
 
 	h2{
@@ -42,33 +64,103 @@
 		border-radius: 5px;
 	}
 	.btn-group{
-		margin: 10px auto;
-
-		input[type="reset"]{
-			margin: 0px 0px 0px 100px;
-			padding: 30px 60px;
+		display: flex;
+		justify-content: space-around;
+		margin: 10px;
+		button[type="reset"]{
+			// margin: 10px;
+			padding: 15px 30px;
 			border-radius: 10px;
+			border-width: 1px;
 			// &:active{
 			// 	// border-width: 1px;
 
 			// }
 		}
 		button[type="submit"]{
-			margin: 10px;
-			padding: 30px 60px;
+			// margin: 10px;
+			padding: 15px 30px;
 			border-width: 1px;
 			border-radius: 10px;
 		}
 	}
 }
 
-
+/*    */
 
 .ng-valid[required], .ng-valid.required  {
-  border-left: 4px solid #42A948; /* green */
+  border-left: 4px solid #42A948;
 }
 .ng-invalid:not(form)  {
-  border-left: 4px solid #a94442; /* red */
+  border-left: 4px solid #a94442; 
 }
 
 /*  */
+
+#view-note-modal {
+	visibility: hidden;
+	opacity: 0;
+	transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+	&:target {
+		visibility: visible;
+		opacity: 1;
+		.modal {
+			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+	.modal {
+		opacity: 0;
+		transform: translateY(-1rem);
+		transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+		transition-delay: .2s;
+	}
+}
+.modal-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal-bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, .6);
+}
+.modal {
+	z-index: 1;
+	background-color: rgb(200, 240, 255);
+	width: 80%;
+	max-width: 500px;
+	min-width: 100px;
+	padding: 1rem;
+	border-radius: 8px;
+}
+.row{
+	// width: 300px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid rgb(180, 180, 180);
+	max-height:95px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	content: "";
+	position:relative;
+
+	&:before {
+		content:'';
+		width:100%;
+		height:100%;    
+		position:absolute;
+		left:0;
+		top:0;
+		background:linear-gradient(transparent 150px, white);
+	}
+}
