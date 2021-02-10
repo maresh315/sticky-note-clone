@@ -17,8 +17,8 @@ export class ModifyNotesComponent implements OnInit {
   tags:Array<string> = ['Personal','Work','Miscellaneous']
   currentRoute:string;
   formTitle:string;
-  // isModalOpen:boolean;
-  // isConfirmed:boolean;
+  isModalOpen:boolean;
+  isConfirmed:boolean;
   message:string = 'Discard Current Changes?';
   private currentNote:Note;
 
@@ -56,8 +56,7 @@ export class ModifyNotesComponent implements OnInit {
     });
     
     if(this.currentRoute === 'new-note'){
-      this.apiService.addNotes(note);
-      this.router.navigate([''])
+      this.apiService.addNotes(note).subscribe({next:()=>{this.router.navigate([''])}});
     }else
       this.updateNote(note)
   }
@@ -66,6 +65,7 @@ export class ModifyNotesComponent implements OnInit {
     $event.preventDefault();
     $event.stopPropagation();
     // this.isModalOpen=true
+
     if(this.currentRoute === 'new-note')
       form.resetForm();
     else{
@@ -78,25 +78,26 @@ export class ModifyNotesComponent implements OnInit {
   }
 
   onBack(){
-    // this.isModalOpen = true;
-    // if(this.isConfirmed)
-      this.router.navigate(['']);
+    this.isModalOpen = true;
+      
     
   }
   
-  onModalClick(bool:boolean, form:NgForm){
-    if(this.currentRoute === 'new-note')
-      form.resetForm();
-    else{
-      this.title = this.currentNote.title;
-      this.content = this.currentNote.content;
-      this.tag = this.currentNote.tag;
-    }
-    // if(bool){
-    //   this.isConfirmed=true
-    //   this.isModalOpen = false
-    // }else
-    //   this.isModalOpen=false
+  onModalClick(bool:boolean, form?:NgForm){
+    if(bool){
+      this.isConfirmed=true
+      this.isModalOpen = false
+      this.router.navigate(['']);
+    }else
+      this.isModalOpen=false
+
+    // if(this.currentRoute === 'new-note')
+    //   form.resetForm();
+    // else{
+    //   this.title = this.currentNote.title;
+    //   this.content = this.currentNote.content;
+    //   this.tag = this.currentNote.tag;
+    // }
     
   }
   

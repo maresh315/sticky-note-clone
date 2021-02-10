@@ -12,8 +12,8 @@ export class ApiService {
 
   constructor(private http:HttpClient ) { }
 
-  addNotes(note:Note):void{
-    this.http.post(BASE_URL+'/notes', note).subscribe();
+  addNotes(note:Note){
+    return this.http.post(BASE_URL+'/notes', note);
   }
 
   getNotes():Observable<Array<Note>>{
