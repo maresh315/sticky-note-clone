@@ -1,10 +1,9 @@
-<nav class="container">
-	<div class="nav-brand">
-		<h1>Notes</h1>
-	</div>
+<nav>
+	<button *ngIf="isSearch" class="btn" (click)="onBack()">Back</button>
+	<h1>Notes</h1>
 	<div class="nav-search">
 		<input id="filter" type="search" placeholder="Tag Search..." [(ngModel)]="filterString" >
-		<button id="btn-search" (click)="filterNotes($event)">Search</button>
+		<button class="btn" (click)="filterNotes($event)">Search</button>
 	</div>
 </nav>
 
@@ -41,20 +40,25 @@
 </div> -->
 
 <div class="note-list">
-	<div class="container" *ngFor='let note of notes |async'>
+	<div class="container" *ngFor='let note of (notes | async).reverse()'>
 
 		<a class="card" [ngClass]="getbgColor(note.tag)" (click)="viewNote($event, note)" [href]="viewNoteElementId">
 			<div class="card-header">
 				<span class="left-header">
 					<small>{{note.tag}}</small>
-					<h2>{{note.title}}</h2>
+					<p>{{note.title}}</p>
 				</span>
-				<span class="btn-edit" (click)="editNote($event, note)">&#8921;</span>
-				<span class="btn-close" (click)="deleteNote($event, note.id)">&times;</span>
+				<span class="right-header">
+					<span class="btn-edit" (click)="editNote($event, note)">&#x39E;</span>
+					<span class="btn-close" (click)="deleteNote($event, note.id)">&times;</span>
+				</span>
 			</div>
 			
 			<div class="card-body">
-				<p class="overflow row">{{note.content}}</p>
+				<p class="row">{{note.content}}</p>
+			</div>
+
+			<div class="card-footer">
 				<small>Created On: {{note.id | date}}</small>
 				<small>Updated On: {{note.updated | date}}</small>
 			</div>
@@ -65,17 +69,18 @@
 
 <div *ngIf="selectedNote"  class="modal-container" id="view-note-modal">
 	<div class="modal">
-		<div class="card-header">
+		<div class="modal-header">
 			<small>{{selectedNote.tag}}</small>
 			<h2>{{selectedNote.title}}</h2>
 		</div>
 		
-		<br>
-		<div class="card-body">
+		<div class="modal-body">
 			<p class="overflow">{{selectedNote.content}}</p>
-			<br>
-			<small>Created On: {{selectedNote.id | date}}</small>
-			<small>Updated On: {{selectedNote.updated | date}}</small>
+		</div>
+		
+		<div class="modal-footer">
+			<p>Created On: {{selectedNote.id | date}}</p>
+			<p>Updated On: {{selectedNote.updated | date}}</p>
 		</div>
 	</div>
 

@@ -1,19 +1,19 @@
 <nav>
 		<h1>Notes</h1>
-		<button id="btn-back" (click)="onBack()">Back</button>
+		<button class="btn" (click)="onBack()">Back</button>
 </nav>
 
 <div class=" card-modify" >
 	<form #modifyForm="ngForm" (ngSubmit)="onSave()">
 		<h2>{{formTitle}}</h2>
-		<input type="text" placeholder="Note Title" name="title" [(ngModel)]="title" required>
+		<input type="text" placeholder="Note Title" name="title" [(ngModel)]="title">
 		<textarea type="text" [placeholder]="dummyText" name="content" #name="ngModel" [(ngModel)]="content" required></textarea>
-		<select name="tag" [(ngModel)]="tag" required>
+		<select name="tag" [(ngModel)]="tag">
 			<option *ngFor="let tag of tags" [value]="tag">{{tag}}</option>
 		</select>
 		<div class="btn-group">
-			<button type="submit">Save</button>
-			<button type="reset" (click)="onReset($event, modifyForm)">Reset</button>
+			<button class="btn" type="submit">Save</button>
+			<button class="btn" type="reset" (click)="onReset($event, modifyForm)">Reset</button>
 		</div>
 	</form>
 </div>	

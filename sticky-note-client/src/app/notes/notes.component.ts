@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
@@ -20,6 +20,7 @@ export class NotesComponent implements OnInit {
   viewNoteElementId:string;
   filterString:string;
   onClick:boolean;
+  isSearch:boolean;
 
   constructor(private apiService:ApiService, private router:Router) { }
 
@@ -32,12 +33,20 @@ export class NotesComponent implements OnInit {
   addNote():void{
     this.router.navigate(['new-note']);
   }
-  
+  onBack():void{
+    this.isSearch = false;
+    this.notes = this.apiService.getNotes();
+  }
   filterNotes($event:any){
     this.preventDefaultEvents($event);
     let tag = this.filterString.charAt(0).toUpperCase()+this.filterString.slice(1);
-    this.notes = this.apiService.getNotesByTag(tag)
-
+    if(tag){
+      this.notes = this.apiService.getNotesByTag(tag)
+      this.isSearch = true;
+    }else{
+      this.onBack();
+      
+    }
   }
 
   editNote($event:any, note:Note):void{
@@ -54,10 +63,10 @@ export class NotesComponent implements OnInit {
   }
   
   deleteNote($event:any, id:number):void{
+    // this.preventDefaultEvents($event);
     if($event.target.matches('span.btn-close')){
       this.apiService.deleteNote(id);
     }
-    this.preventDefaultEvents($event);
   }
 
   getbgColor(tag:string):string{

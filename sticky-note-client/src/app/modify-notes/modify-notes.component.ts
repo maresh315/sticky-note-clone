@@ -73,7 +73,7 @@ export class ModifyNotesComponent implements OnInit {
       this.content = this.currentNote.content;
       this.tag = this.currentNote.tag;
     }
-    
+
     
   }
 

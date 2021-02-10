@@ -17,7 +17,7 @@ export class ApiService {
   }
 
   getNotes():Observable<Array<Note>>{
-    return this.http.get<Array<Note>>(BASE_URL+'/notes');
+    return this.http.get<Array<Note>>(BASE_URL+'/notes')
   }
 
   getNotesByTag(tag:string):Observable<Array<Note>>{
