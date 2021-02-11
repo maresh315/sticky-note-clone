@@ -39,7 +39,7 @@ $btn-color: linear-gradient(-180deg, $primary-color, skyblue);
 	.card-header{
 		display: flex;
 		justify-content: space-between;
-		align-items: start;
+		align-items: flex-start;
 		margin-top: 5px;
 		font-size: medium;
 	}
@@ -58,9 +58,6 @@ $btn-color: linear-gradient(-180deg, $primary-color, skyblue);
 	p{
 		font-size: 14pt;
 		font-weight: bolder;
-		max-height:34px;
-		overflow:hidden;
-		
 	}
 }
 .right-header{
@@ -92,11 +89,11 @@ $btn-color: linear-gradient(-180deg, $primary-color, skyblue);
 	}
 }
 
-.row{
-	border-bottom: 1px solid rgba(255, 255, 255, .3);
-	height:83px;
-	overflow:hidden;
-}
+// .row{
+// 	border-bottom: 1px solid rgba(255, 255, 255, .3);
+// 	height:83px;
+// 	overflow:hidden;
+// }
 /*  */
 
 .hexagon-wrapper {

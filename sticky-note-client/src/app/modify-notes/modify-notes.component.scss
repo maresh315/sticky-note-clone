@@ -41,6 +41,7 @@
 		padding: 0px 0px 30% 10px;
 		font-size: large;
 		border-radius: 5px;
+		overflow: auto;
 	}
 	input[type="text"]{
 		margin: 10px;
@@ -81,27 +82,27 @@
 }
 
 /*  */
-
-#view-note-modal {
-	visibility: hidden;
-	opacity: 0;
-	transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
-	&:target {
-		visibility: visible;
-		opacity: 1;
-		.modal {
-			transform: translateY(0);
-			opacity: 1;
-		}
-	}
-	.modal {
-		opacity: 0;
-		transform: translateY(-1rem);
-		transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
-		transition-delay: .2s;
-	}
-}
-.modal-container {
+/* CSS WAY */
+// #view-note-alert {
+// 	visibility: hidden;
+// 	opacity: 0;
+// 	transition: all .5s cubic-bezier(0.075, 0.82, 0.165, 1);
+// 	&:target {
+// 		visibility: visible;
+// 		opacity: 1;
+// 		.alert {
+// 			transform: translateY(0);
+// 			opacity: 1;
+// 		}
+// 	}
+// 	.alert {
+// 		opacity: 0;
+// 		transform: translateY(-1rem);
+// 		transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+// 		transition-delay: .2s;
+// 	}
+// }
+.alert-container {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -111,7 +112,7 @@
 	justify-content: center;
 	align-items: center;
 }
-.modal-bg {
+.alert-bg {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -119,33 +120,42 @@
 	bottom: 0;
 	background-color: rgba(0, 0, 0, .6);
 }
-.modal {
+.alert {
 	z-index: 1;
 	background-color: rgb(200, 240, 255);
-	width: 80%;
-	max-width: 500px;
+	width: 60%;
+	max-width: 400px;
 	min-width: 100px;
 	padding: 1rem;
 	border-radius: 8px;
-}
-.row{
-	// width: 300px;
-	margin-bottom: 5px;
-	padding-bottom: 5px;
-	border-bottom: 3px solid rgb(180, 180, 180);
-	max-height:95px;
-	overflow:hidden;
-	text-overflow: ellipsis;
-	content: "";
-	position:relative;
-
-	&:before {
-		content:'';
-		width:100%;
-		height:100%;    
-		position:absolute;
-		left:0;
-		top:0;
-		background:linear-gradient(transparent 150px, white);
+	.alert-body{
+		display: flex;
+		justify-content: center;
+	}
+	.alert-footer{
+		display: flex;
+		justify-content: space-between;
 	}
 }
+/* CSS Way */
+// .row{
+// 	// width: 300px;
+// 	margin-bottom: 5px;
+// 	padding-bottom: 5px;
+// 	border-bottom: 3px solid rgb(180, 180, 180);
+// 	max-height:95px;
+// 	overflow:hidden;
+// 	text-overflow: ellipsis;
+// 	content: "";
+// 	position:relative;
+
+// 	&:before {
+// 		content:'';
+// 		width:100%;
+// 		height:100%;    
+// 		position:absolute;
+// 		left:0;
+// 		top:0;
+// 		background:linear-gradient(transparent 150px, white);
+// 	}
+// }

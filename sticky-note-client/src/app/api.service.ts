@@ -12,34 +12,34 @@ export class ApiService {
 
   constructor(private http:HttpClient ) { }
 
-  addNotes(note:Note){
-    return this.http.post(BASE_URL+'/notes', note);
+  addNotes(note:Note):Observable<Note>{
+    return this.http.post<Note>(BASE_URL+'/notes', note);
   }
 
   getNotes():Observable<Array<Note>>{
-    return this.http.get<Array<Note>>(BASE_URL+'/notes')
+    return this.http.get<Array<Note>>(BASE_URL+'/notes');
   }
 
   getNotesByTag(tag:string):Observable<Array<Note>>{
     let notesObservable:Observable<Array<Note>> = this.getNotes();
     return notesObservable.pipe(
       map(notes=>{
-        return notes.filter(note=>note.tag === tag)
+        return notes.filter(note=>note.tag === tag);
       })
-    )
+    );
     
   }
 
   getNote(id:number):Observable<Note>{
-    return this.http.get<Note>(`${BASE_URL}/note/${id}`)
+    return this.http.get<Note>(`${BASE_URL}/note/${id}`);
   }
 
-  updateNote(note:Note):void{
-    this.http.post(`${BASE_URL}/notes/${note.id}`, note).subscribe();
+  updateNote(note:Note):Observable<Note>{
+    return this.http.post<Note>(`${BASE_URL}/notes/${note.id}`, note);
   }
 
-  deleteNote(id:number):void{
-    this.http.delete(`${BASE_URL}/notes/${id}`).subscribe()
+  deleteNote(id:number):Observable<Note>{
+    return this.http.delete<Note>(`${BASE_URL}/notes/${id}`);
   }
 
 }

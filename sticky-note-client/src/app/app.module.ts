@@ -8,6 +8,7 @@ import { NotesComponent } from './notes/notes.component';
 import { ModifyNotesComponent } from './modify-notes/modify-notes.component';
 import { AlertComponent } from './alert/alert.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { EllipsisPipe } from './ellipsis.pipe';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ModifyNotesComponent,
     AlertComponent,
     NotFoundComponent,
+    EllipsisPipe,
   ],
   imports: [
     BrowserModule,

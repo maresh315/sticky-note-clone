@@ -65,7 +65,7 @@ export class NotesComponent implements OnInit {
   deleteNote($event:any, id:number):void{
     // this.preventDefaultEvents($event);
     if($event.target.matches('span.btn-close')){
-      this.apiService.deleteNote(id);
+      this.apiService.deleteNote(id).subscribe(()=>this.router.navigate(['']));
     }
   }
 

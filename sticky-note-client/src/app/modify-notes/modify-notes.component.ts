@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AlertService } from '../alert.service';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
 
@@ -18,12 +19,16 @@ export class ModifyNotesComponent implements OnInit {
   currentRoute:string;
   formTitle:string;
   isModalOpen:boolean;
-  isConfirmed:boolean;
+  isBack:boolean;
   message:string = 'Discard Current Changes?';
+  isTextDirty:boolean;
+  isTitleDirty:boolean;
+  // isFormDirty:boolean;
   private currentNote:Note;
+  isTagDirty: boolean;
 
   constructor(private apiService:ApiService, private router:Router, 
-    private activated:ActivatedRoute) { }
+    private activated:ActivatedRoute, private alertService:AlertService) { }
 
   ngOnInit(): void {
     // this.isModalOpen = false;
@@ -56,7 +61,7 @@ export class ModifyNotesComponent implements OnInit {
     });
     
     if(this.currentRoute === 'new-note'){
-      this.apiService.addNotes(note).subscribe({next:()=>{this.router.navigate([''])}});
+      this.apiService.addNotes(note).subscribe({next:()=>this.router.navigate([''])});
     }else
       this.updateNote(note)
   }
@@ -64,47 +69,65 @@ export class ModifyNotesComponent implements OnInit {
   onReset($event:any, form:NgForm):void{
     $event.preventDefault();
     $event.stopPropagation();
-    // this.isModalOpen=true
-
-    if(this.currentRoute === 'new-note')
-      form.resetForm();
-    else{
-      this.title = this.currentNote.title;
-      this.content = this.currentNote.content;
-      this.tag = this.currentNote.tag;
-    }
-
     
+    if(this.isFormDirty(this.isTitleDirty,this.isTextDirty,this.isTagDirty))
+      this.isModalOpen=true
   }
 
   onBack(){
-    this.isModalOpen = true;
+    if(this.isFormDirty(this.isTitleDirty,this.isTextDirty,this.isTagDirty)){
+      this.isBack = true;
+      this.isModalOpen = true;
+    }else
+      this.router.navigate(['']);
+    
       
     
   }
   
-  onModalClick(bool:boolean, form?:NgForm){
-    if(bool){
-      this.isConfirmed=true
-      this.isModalOpen = false
-      this.router.navigate(['']);
-    }else
-      this.isModalOpen=false
-
-    // if(this.currentRoute === 'new-note')
-    //   form.resetForm();
-    // else{
-    //   this.title = this.currentNote.title;
-    //   this.content = this.currentNote.content;
-    //   this.tag = this.currentNote.tag;
-    // }
-    
+  onAlertClick(bool:boolean, form?:NgForm){
+    if(this.currentRoute === 'new-note')
+      this.alertAction(bool, this.currentRoute, this.isBack);
+    else
+      this.alertAction(bool,this.currentRoute);
   }
   
   private updateNote(note:Note):void{
     note.id = this.currentNote.id
-    this.apiService.updateNote(note);
-    this.router.navigate([''])
+    this.apiService.updateNote(note).subscribe({next: ()=>this.router.navigate([''])});
   }
 
+  private isFormDirty(isTitleDirty: boolean,isTextDirty: boolean,isTagDirty: boolean):boolean{
+    let isFormDirty:boolean = ((isTitleDirty && isTextDirty && isTagDirty)||(isTitleDirty || isTextDirty || isTagDirty));
+
+    return isFormDirty;
+  }
+
+  private alertAction(action:boolean, route:string, isBack:boolean = this.isBack){
+    
+    if(action){//confirm
+      if(isBack){//back pressed
+        this.router.navigate(['']);
+      }else if(route === 'new-note'){//reset pressed on new note
+        this.isModalOpen = false;
+        this.title = null;
+        this.content = null;
+        this.tag = null;
+        this.isTitleDirty = false;
+        this.isTextDirty = false;
+        this.isTagDirty = false;
+      }else{//reset pressed on edit note
+        this.isModalOpen=false;
+        this.title = this.currentNote.title;
+        this.content = this.currentNote.content;
+        this.tag = this.currentNote.tag;
+        this.isTitleDirty = false;
+        this.isTextDirty = false;
+        this.isTagDirty = false;
+      }
+    }else{//cancel
+      this.isModalOpen=false;
+      this.isBack = false;
+    }
+  }
 }

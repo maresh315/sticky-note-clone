@@ -46,7 +46,7 @@
 			<div class="card-header">
 				<span class="left-header">
 					<small>{{note.tag}}</small>
-					<p>{{note.title}}</p>
+					<p>{{note.title | ellipsis: 20}}</p>
 				</span>
 				<span class="right-header">
 					<span class="btn-edit" (click)="editNote($event, note)">&#x39E;</span>
@@ -55,12 +55,12 @@
 			</div>
 			
 			<div class="card-body">
-				<p class="row">{{note.content}}</p>
+				<p class="">{{note.content | ellipsis: 100}}</p>
 			</div>
 
 			<div class="card-footer">
 				<small>Created On: {{note.id | date}}</small>
-				<small>Updated On: {{note.updated | date}}</small>
+				<small *ngIf="note.updated">Updated On: {{note.updated | date}}</small>
 			</div>
 		</a>
 
