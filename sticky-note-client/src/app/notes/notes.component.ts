@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
 
@@ -12,6 +13,7 @@ import { Note } from '../model/note';
 export class NotesComponent implements OnInit {
 
   notes:Observable<any>;
+  loadingNotes:Array<Note>;
   title:string;
   content:string;
   tag:string;
@@ -27,6 +29,8 @@ export class NotesComponent implements OnInit {
   ngOnInit(): void {
     this.onClick = false;
     this.notes = this.apiService.getNotes();
+
+    this.loadingNotes = new Array(1).fill(new Note({title:'',content:'NOW LOADING...',tag:''}))
     
   }
 
@@ -35,7 +39,8 @@ export class NotesComponent implements OnInit {
   }
   onBack():void{
     this.isSearch = false;
-    this.notes = this.apiService.getNotes();
+    this.router.navigate(['']);
+    // this.notes = this.apiService.getNotes().pipe(map(notes=>notes.reverse()));
   }
   filterNotes($event:any){
     this.preventDefaultEvents($event);

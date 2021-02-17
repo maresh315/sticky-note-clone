@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from '../alert.service';
 import { ApiService } from '../api.service';
 import { Note } from '../model/note';
 
@@ -11,9 +10,9 @@ import { Note } from '../model/note';
   styleUrls: ['./modify-notes.component.scss']
 })
 export class ModifyNotesComponent implements OnInit {
-  title:string;
-  content:string;
-  tag:string;
+  title:string = '';
+  content:string = '';
+  tag:string = '';
   dummyText:string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut urna malesuada, pellentesque felis quis, sodales velit. Curabitur scelerisque faucibus purus, nec sollicitudin magna fringilla vitae. Duis sit amet dui et lectus rhoncus commodo. In vel diam dictum, pretium augue ac, dictum justo. Nulla sit amet erat vitae erat congue rutrum eget et ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque quis quam ultricies, elementum justo sed, rhoncus dui.';
   tags:Array<string> = ['Personal','Work','Miscellaneous']
   currentRoute:string;
@@ -28,11 +27,20 @@ export class ModifyNotesComponent implements OnInit {
   isTagDirty: boolean;
 
   constructor(private apiService:ApiService, private router:Router, 
-    private activated:ActivatedRoute, private alertService:AlertService) { }
+    private activated:ActivatedRoute) { }
 
   ngOnInit(): void {
     // this.isModalOpen = false;
+    // this.activated.url.subscribe((data)=>{
+    //   this.currentRoute = data[0].path;
+
+    //   if(this.currentRoute === 'new-note'){
+    //     this.formTitle = 'New Note'
+    //   }else{
+    //     this.formTitle = 'Edit Note';
+    // })
     this.activated.params.subscribe(params =>{
+      
       this.apiService.getNote(params.id).subscribe(note =>{
         this.title = note.title;
         this.content = note.content;
@@ -43,13 +51,7 @@ export class ModifyNotesComponent implements OnInit {
       })
     })
 
-    this.activated.url.subscribe((data)=>{
-      this.currentRoute = data[0].path;
-
-      (this.currentRoute === 'new-note')?
-        this.formTitle = 'New Note':
-        this.formTitle = 'Edit Note';
-    })
+    
 
   }
 

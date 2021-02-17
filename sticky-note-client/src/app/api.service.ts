@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { Note } from './model/note';
 
 const BASE_URL = 'http://localhost:2000';
@@ -17,7 +17,7 @@ export class ApiService {
   }
 
   getNotes():Observable<Array<Note>>{
-    return this.http.get<Array<Note>>(BASE_URL+'/notes');
+    return this.http.get<Array<Note>>(BASE_URL+'/notes').pipe(this.addDelay);
   }
 
   getNotesByTag(tag:string):Observable<Array<Note>>{
@@ -42,4 +42,7 @@ export class ApiService {
     return this.http.delete<Note>(`${BASE_URL}/notes/${id}`);
   }
 
+  private addDelay(observable:Observable<any>){
+    return observable.pipe(delay(1000));
+  }
 }

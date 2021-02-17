@@ -13,34 +13,11 @@
 	</div>
 </div>
 
-<!-- Test Note -->
-<!-- <div class="container">
-	<a class="card" [ngClass]="bgColor" [href]="viewNoteElementId" (click)="viewNote()">
-		<div class="card-header">
-			<span class="left-header">
-				<small>Personal</small>
-				<h2>Title</h2>
-			</span>
-			<span class="btn-edit" (click)="editNote({
-				id: 2216355442,
-				title: 'Title',
-				content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut urna malesuada, pellentesque fel'+
-				'is quis, sodales velit. Curabitur scelerisque faucibus purus, nec sollicitudin magna fringilla vitae. Duis sit amet dui et lectus rhoncus commodo. In vel diam dictum, pretium augue ac, dictum justo. Nulla sit amet erat vitae erat congue rutrum eget et ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque quis quam ultricies, elementum justo sed, rhoncus dui. Quisque bibendum dolor quis magna tempus consectetur. Aenean feugiat aliquet nisl, placerat tempor eros. Aliquam tincidunt a ante ut feugiat. Maecenas tristique augue quis finibus porta. Ut maximus feugiat risus. Pellentesque vitae sollicitudin nisl. Maecenas at nisi.',
-				tag: 'Personal'
-			})">&#8921;</span>
-			<span class="btn-close" (click)="deleteNote()">&times;</span>
-		</div>
-		
-		<div class="card-body">
-			<p class="overflow row">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut urna malesuada, pellentesque fel
-			is quis, sodales velit. Curabitur scelerisque faucibus purus, nec sollicitudin magna fringilla vitae. Duis sit amet dui et lectus rhoncus commodo. In vel diam dictum, pretium augue ac, dictum justo. Nulla sit amet erat vitae erat congue rutrum eget et ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Quisque quis quam ultricies, elementum justo sed, rhoncus dui. Quisque bibendum dolor quis magna tempus consectetur. Aenean feugiat aliquet nisl, placerat tempor eros. Aliquam tincidunt a ante ut feugiat. Maecenas tristique augue quis finibus porta. Ut maximus feugiat risus. Pellentesque vitae sollicitudin nisl. Maecenas at nisi.</p>
-			<small>Created On: some date</small>
-		</div>
-	</a>
-</div> -->
 
+<!-- LOADED NOTES -->
 <div class="note-list">
-	<div class="container" *ngFor='let note of (notes | async).reverse()'>
+	<ng-container *ngIf="notes|async as noteList; else loading">
+		<div class="container" *ngFor='let note of noteList.reverse()'>
 
 		<a class="card" [ngClass]="getbgColor(note.tag)" (click)="viewNote($event, note)" [href]="viewNoteElementId">
 			<div class="card-header">
@@ -59,14 +36,37 @@
 			</div>
 
 			<div class="card-footer">
-				<small>Created On: {{note.id | date}}</small>
+				<small *ngIf="note.id">Created On: {{note.id | date}}</small>
 				<small *ngIf="note.updated">Updated On: {{note.updated | date}}</small>
 			</div>
 		</a>
 
 	</div>
+	</ng-container>
+	
 </div>
+<!-- LOADING NOTE -->
+<ng-template class="note-list" #loading>
+	<div class="container" *ngFor="let loading of loadingNotes">
+		<a class="card" [ngClass]="getbgColor(loading.tag)">
+			<div class="card-header">
+				<div></div>
+				<span class="right-header">
+					<span class="btn-edit">&#x39E;</span>
+					<span class="btn-close">&times;</span>
+				</span>
+			</div>
+			
+			<div class="card-body">
+				<p class="">{{loading.content}}</p>
+			</div>
+			<div></div>
 
+		</a>
+	</div>
+</ng-template>
+
+<!-- MODAL -->
 <div *ngIf="selectedNote"  class="modal-container" id="view-note-modal">
 	<div class="modal">
 		<div class="modal-header">
